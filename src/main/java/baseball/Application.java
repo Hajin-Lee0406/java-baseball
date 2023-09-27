@@ -9,20 +9,18 @@ public class Application {
         // 난수 생성하기
         String ranNum = getRandom();
 
-        //System.out.println(ranNum);
+        System.out.println(ranNum);
         System.out.println("숫자 야구 게임을 시작합니다");
 
-        String test = "test";
-        while (!test.equals("3스트라이크")){
-            System.out.println("숫자를 입력해주세요 :");
-            Scanner scan = new Scanner(System.in);
-            String str;
+        while (true) {
+            boolean result = game(ranNum);
+            if(result){
+                System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료\n" + "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요");
+                Scanner scan = new Scanner(System.in);
+                int str = scan.nextInt();
 
-            str = scan.nextLine();
-
-            String validation = validation(ranNum, str);
-            test = validation;
-            System.out.println(validation);
+                if (str == 2) break;
+            }
         }
     }
 
@@ -60,5 +58,17 @@ public class Application {
         if(strike == 0) return ball + "볼";
         if(ball == 0) return strike + "스트라이크";
         return ball + "볼" + " " + strike + "스트라이크";
+    }
+
+    // 야구 게임
+    private static boolean game(String ranNum){
+        System.out.println("숫자를 입력해주세요 :");
+        Scanner scan = new Scanner(System.in);
+        String str = scan.next();
+
+        String validation = validation(ranNum, str);
+        System.out.println(validation);
+
+        return validation.equals("3스트라이크");
     }
 }
