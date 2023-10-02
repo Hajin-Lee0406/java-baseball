@@ -1,21 +1,24 @@
 package baseball;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import camp.nextstep.edu.missionutils.Console;
 
 import java.util.*;
 
-public class Application {
-    public static void main(String[] args){
+import static camp.nextstep.edu.missionutils.Console.readLine;
 
+public class Application {
+
+    private static final String CONTINUE_GAME = "1";
+    public static void main(String[] args){
         boolean valid = true;
         while (valid){
-            // 난수 생성하기
             String ranNum = getRandom();
 
             System.out.println(ranNum);
             System.out.println("숫자 야구 게임을 시작합니다");
 
-            while (!game(ranNum));
+            game(ranNum);
 
             valid = continueGame();
         }
@@ -23,14 +26,10 @@ public class Application {
 
     // 난수 생성
     private static String getRandom(){
-        List<String> num = new ArrayList<>();
-        for (int i=0; i<10; i++) num.add(String.valueOf(i));
-
         StringBuilder ranNum = new StringBuilder();
-        for (int i=0; i<3; i++){
-            String a = num.get(Randoms.pickNumberInRange(1, 9));
-            ranNum.append(a);
-            num.remove(a);
+        List<Integer> numbers = Randoms.pickUniqueNumbersInRange(1, 9, 3);
+        for (Integer number : numbers) {
+            ranNum.append(number);
         }
 
         return ranNum.toString();
@@ -57,29 +56,32 @@ public class Application {
     }
 
     // 숫자 맞추기
-    private static boolean game(String ranNum){
-        System.out.println("숫자를 입력해주세요 :");
-        Scanner scan = new Scanner(System.in);
-        String str = scan.next();
+    private static void game(String ranNum){
+        boolean validInput = false;
+        String validation;
 
-        String validation = validation(ranNum, str);
-        System.out.println(validation);
+        while (!validInput) {
+            System.out.print("숫자를 입력해주세요 : ");
+            String str = readLine();
 
-        return validation.equals("3스트라이크");
+            if (str.length() != 3) {
+                throw new IllegalArgumentException("입력값이 올바르지 않습니다");
+            }
+
+            validation = validation(ranNum, str);
+            System.out.println(validation);
+
+            validInput = validation.equals("3스트라이크");
+        }
     }
 
     // 게임 끝내기
     private static boolean continueGame(){
         System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료\n" + "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요");
 
-        Scanner scan = new Scanner(System.in);
-        int str = scan.nextInt();
+        String str = readLine();
 
-        if (str != 1 && str !=2){
-            throw new IllegalArgumentException("입력값이 올바르지 않습니다.");
-        }
-
-        return str == 1;
+        return str.equals(CONTINUE_GAME);
     }
 
 }
