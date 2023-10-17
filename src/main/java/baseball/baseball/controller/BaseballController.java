@@ -1,5 +1,8 @@
 package baseball.baseball.controller;
 
+import baseball.baseball.model.BaseballService;
+import baseball.baseball.view.InputView;
+import baseball.baseball.view.OutputView;
 import camp.nextstep.edu.missionutils.Randoms;
 
 import java.util.List;
@@ -8,13 +11,17 @@ import static camp.nextstep.edu.missionutils.Console.readLine;
 
 public class BaseballController {
     private static final String CONTINUE_GAME = "1";
+    private static final OutputView outputView = OutputView.getInstance();
+    private static final InputView inputView = InputView.getInstance();
+
     public static void run(){
         boolean valid = true;
+
         while (valid){
             String ranNum = getRandom();
 
-            System.out.println(ranNum);
-            System.out.println("숫자 야구 게임을 시작합니다");
+            System.out.println(ranNum); // 테스트. 실제 동작 시, 지우고 동작시킨다.
+            outputView.printStartGame();
 
             game(ranNum);
 
@@ -59,8 +66,7 @@ public class BaseballController {
         String validation;
 
         while (!validInput) {
-            System.out.print("숫자를 입력해주세요 : ");
-            String str = readLine();
+            String str = inputView.getNumber();
 
             if (str.length() != 3) {
                 throw new IllegalArgumentException("입력값이 올바르지 않습니다");
@@ -75,7 +81,7 @@ public class BaseballController {
 
     // 게임 끝내기
     private static boolean continueGame(){
-        System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료\n" + "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요");
+        InputView.getIsEndGame();
 
         String str = readLine();
 
