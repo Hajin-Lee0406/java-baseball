@@ -7,6 +7,7 @@ import camp.nextstep.edu.missionutils.Randoms;
 
 import java.util.List;
 
+import static baseball.baseball.model.constants.*;
 import static camp.nextstep.edu.missionutils.Console.readLine;
 
 public class BaseballController {
@@ -43,13 +44,13 @@ public class BaseballController {
             String str = inputView.getNumber();
 
             if (str.length() != 3) {
-                throw new IllegalArgumentException("입력값이 올바르지 않습니다");
+                throw new IllegalArgumentException(INVALID_INPUT);
             }
 
             validation = validation(ranNum, str);
             System.out.println(validation);
 
-            validInput = validation.equals("3스트라이크");
+            validInput = validation.equals(SUCCESS);
         }
     }
 
@@ -67,10 +68,10 @@ public class BaseballController {
             }
         }
 
-        if(strike == 0 && ball ==0) return "낫싱";
-        if(strike == 0) return ball + "볼";
-        if(ball == 0) return strike + "스트라이크";
-        return ball + "볼" + " " + strike + "스트라이크";
+        if(strike == 0 && ball ==0) return NOTHING;
+        if(strike == 0) return ball + BALL;
+        if(ball == 0) return strike + STRIKE;
+        return ball + BALL + " " + strike + STRIKE;
     }
 
     // 게임 끝내기
